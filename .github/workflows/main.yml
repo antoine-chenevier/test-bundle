@@ -1,0 +1,35 @@
+name: Create Git Bundle
+
+on:
+  push:
+    branches:
+      - main  # Modifier pour spécifier une branche différente si nécessaire
+
+jobs:
+  create_bundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Create Bundle
+        run: |
+          # Nom du répertoire de votre dépôt
+          repo_directory="test-bundle"
+          
+          # Nom du bundle que vous souhaitez créer
+          bundle_name="mon_bundle.git"
+
+          # Chemin vers le répertoire du dépôt
+          repo_path="$GITHUB_WORKSPACE/$repo_directory"
+
+          # Créer le bundle à partir du dépôt
+          cd "$repo_path"
+          git bundle create "$GITHUB_WORKSPACE/$bundle_name" --all
+
+      - name: Save Bundle Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: git-bundle
+          path: $GITHUB_WORKSPACE/$bundle_name
