@@ -3,7 +3,7 @@ name: Create Git Bundle
 on:
   push:
     branches:
-      - main  # Modifier pour spécifier une branche différente si nécessaire
+      - main
 
 jobs:
   create_bundle:
@@ -16,17 +16,17 @@ jobs:
       - name: Create Bundle
         run: |
           # Nom du répertoire de votre dépôt
-          repo_directory="test-bundle"
+          repo_directory: 'test-bundle'
           
           # Nom du bundle que vous souhaitez créer
-          bundle_name="mon_bundle.git"
+          bundle_name: 'test-bundle.git'
 
           # Chemin vers le répertoire du dépôt
-          repo_path="$GITHUB_WORKSPACE/$repo_directory"
+          repo_path: $GITHUB_WORKSPACE/$repo_directory
 
           # Créer le bundle à partir du dépôt
-          cd "$repo_path"
-          git bundle create "$GITHUB_WORKSPACE/$bundle_name" --all
+          cd $repo_path
+          git bundle create $GITHUB_WORKSPACE/$bundle_name --all
 
       - name: Save Bundle Artifact
         uses: actions/upload-artifact@v2
